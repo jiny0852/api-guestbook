@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 쿼리문 파일 -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="guestbook">
+
+	<!-- 쿼리문작성 -->
+
+	<resultMap id="resultMapPersonVo" type="com.javaex.vo.PersonVo">
+
+		<result column="no" property="no" />
+		<result column="name" property="name" />
+		<result column="password" property="password" />
+		<result column="content" property="content" />
+		<result column="reg_date" property="regDate" />
+
+	</resultMap>
+	
+	
+	
+
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="Map">
+	
+		<![CDATA[
+
+			delete from person 
+			where no = #{no} 
+			and password = #{password} 
+
+		]]>
+
+	</delete>
+	
+	
+	
+	
+	<!-- 저장 -->
+	<insert id="insert" parameterType="com.javaex.vo.PersonVo">
+	
+		<![CDATA[
+
+			insert into person
+			values ( null, #{name}, #{password}, #{content}, now() )
+
+		]]>
+
+	</insert>
+	
+	
+	<!-- 수정 -->
+	<update id="update" parameterType="com.javaex.vo.PersonVo">
+	
+		<![CDATA[
+
+			update person 
+			set name = #{name}, 
+				hp = #{hp}, 
+				company = #{company} 
+	 		where person_id = #{personId}
+
+		]]>
+
+	</update>
+
+
+	<!-- 전제 가져오기 -->
+	
+		<select id="selectList" resultMap="resultMapPersonVo">
+
+		<![CDATA[
+
+			select 	no, 
+		    	    name, 
+		            password, 
+		            content,
+		            reg_date
+		    from person 
+
+		]]>
+
+	</select>
+	
+		<!-- 
+	<select id="selectList" resultType="com.javaex.vo.PersonVo">
+
+		<![CDATA[
+
+			select 	no, 
+		    	    name, 
+		            password, 
+		            content,
+		            reg_date regDate
+		    from person 
+
+		]]>
+
+	</select>
+
+	-->
+	
+	<!-- 한명 가져오기 -->
+	<select id="selectOneMap" parameterType="int" resultType="map">
+
+		<![CDATA[
+
+			select 	no, 
+				    name, 
+			        password, 
+			        content,
+			        reg_date regDate
+			from person 
+			where no = #{no}
+
+		]]>
+
+	</select>
+	
+	<!-- 
+	<select id="selectOne" parameterType="int" resultType="com.javaex.vo.PersonVo">
+
+		<![CDATA[
+
+			select 	no, 
+				    name, 
+			        password, 
+			        content,
+			        reg_date regDate
+			from person 
+			where no = #{no}
+
+		]]>
+
+	</select>
+
+	-->
+
+
+</mapper>
